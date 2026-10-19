@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego del Ahorcado</title>
+    <style>
+        :root {
+            --cosmic-latte: #FFF8E7;
+            --teal-blue: #264653;
+            --retro-coral: #E76F51;
+            --golden-sand: #E9C46A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .contenedor {
+            font-family: sans-serif;
+            color: var(--teal-blue);
+        }
+
+        /* PAGINA DE INICIO */
+
+        .inicio {
+            background-color: var(--cosmic-latte);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 4rem;
+        }
+
+        .titular {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 4rem;
+        }
+
+        .gr-nombre {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1.3rem;
+            margin: 2rem;
+            gap: 1rem;
+        }
+
+        #in_user {
+            padding: .2rem .5rem;
+            font-size: 1.2rem;
+            width: 80%;
+            text-align: center;
+            border-radius: .2rem;
+            border: 1px solid;
+        }
+
+        #aviso {
+            margin-bottom: 1rem;
+            margin-top: -1rem;
+            color: var(--golden-sand);
+            font-size: 1.1rem;
+        }
+
+        #btn_inicio {
+            font-size: 1.2rem;
+            padding: .2rem .5rem;
+            background-color: var(--retro-coral);
+            border: 1px solid var(--teal-blue);
+            border-radius: .5rem;
+        }
+
+        /* PAGINA INTRODUCE FRASE */
+        .inicio-frase {
+            background-color: var(--cosmic-latte);
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 4rem;
+        }
+
+        .gr-frase {
+            margin: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gr-frase label {
+            font-size: 3rem;
+        }
+
+        #in_frase {
+            width: 400px;
+            margin: 2rem;
+            font-size: 1.5rem;
+            padding: .5rem 1rem;
+            text-align: center;
+            border-radius: .2rem;
+            border: 1px solid;
+        }
+
+        #aviso2 {
+            margin-bottom: 1rem;
+            margin-top: -1rem;
+            color: var(--golden-sand);
+            font-size: 1.1rem;
+
+        }
+
+        #btn_ocultar {
+            font-size: 1.2rem;
+            padding: .2rem .5rem;
+            background-color: var(--retro-coral);
+            border: 1px solid var(--teal-blue);
+            border-radius: .5rem;
+        }
+
+        /* PAGINA PRINCIPAL */
+
+        .principal {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: var(--cosmic-latte);
+            display: none;
+            flex-direction: row;
+            flex-wrap: nowrap;
+        }
+
+        .dibujo-ahorcado {
+            width: 15%;
+            margin: 2rem 0 2rem 12rem;
+        }
+
+        .dibujo {
+            margin: 2rem auto;
+            width: 90%;
+            height: auto;
+        }
+
+        .main-ahorcado {
+            width: 68%;
+            margin: 2rem 4rem 0 0;
+        }
+
+        #casillero {
+            padding: 1rem;
+            border: 1px solid;
+            margin: 2rem auto;
+            min-height: 50px;
+            text-align: center;
+            width: fit-content;
+            min-width: 800px;
+        }
+
+        .caracter {
+            margin: .2rem;
+            font-size: 2rem;
+        }
+
+        .espacio {
+            margin: 1rem;
+            font-size: 1rem;
+        }
+
+        .gr-letra {
+            margin: 2rem auto;
+            width: fit-content;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .gr-letra label {
+            font-size: 1.5rem;
+        }
+
+        #in_letra {
+            margin: 1rem;
+            font-size: 1.5rem;
+            text-align: center;
+            border-radius: .2rem;
+            border: 1px solid;
+        }
+
+        #aviso3 {
+            width: 100%;
+            text-align: center;
+            font-size: 1.1rem;
+
+        }
+
+        .gr-marcador {
+            border: 1px solid;
+            width: 600px;
+            margin: auto;
+            padding: 1rem;
+            border-radius: .5rem;
+        }
+
+        .gr-marcador>p {
+            margin: .5rem;
+        }
+
+        /* PAGINA FINAL */
+
+        .final {
+            width: 100%;
+            height: 100%;
+            background-color: var(--cosmic-latte);
+            display: none;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 4rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #msj_final {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .gr-continuar {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+        }
+
+        .pregunta {
+            font-size: 1.5rem;
+            text-align: center;
+            margin: 2rem;
+        }
+
+        .botonera {
+            display: flex;
+            flex-direction: row;
+            margin: auto;
+            width: 100%;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .botonera button {
+            width: 25%;
+            font-size: 1.2rem;
+            padding: .2rem .5rem;
+            background-color: var(--retro-coral);
+            border: 1px solid var(--teal-blue);
+            border-radius: .5rem;
+        }
+
+        /* LEADERBOARD */
+
+        .leaderboard {
+            width: 100%;
+            height: 100%;
+            background-color: var(--cosmic-latte);
+            display: none;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 4rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .leaderboard h2 {
+            font-size: 2rem;
+            margin: 2rem 0 4rem;
+        }
+
+        .tabla_clasif {
+            border-collapse: collapse;
+        }
+
+         .tabla_clasif th {
+            padding: 1rem 2rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        
+        .tabla_clasif td {
+            padding: .8rem;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        .tabla_clasif tr {
+            border-bottom: 2px solid;
+        }
+
+        #lista_tabla tr:last-child {
+            border-bottom: none;
+        }
+
+        #btn_nuevo2 {
+            margin: 4rem;
+            font-size: 1.2rem;
+            padding: .2rem .5rem;
+            background-color: var(--retro-coral);
+            border: 1px solid var(--teal-blue);
+            border-radius: .5rem;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="contenedor">
+        <div class="inicio">
+            <h1 class="titular">Bienvenido al juego del ahorcado.</h1>
+            <div class="gr-nombre">
+                <label for="in_user">¿Como te llamas?</label>
+                <input type="text" name="in_user" id="in_user">
+            </div>
+            <div id="aviso"></div>
+            <button id="btn_inicio">Comienza el juego</button>
+        </div>
+        <div class="inicio-frase">
+            <div class="gr-frase">
+                <label for="in_frase">Introduce la frase que quieras ocultar</label>
+                <input type="password" name="in_frase" id="in_frase">
+                <div id="aviso2"></div>
+                <button id="btn_ocultar">Oculta la frase</button>
+            </div>
+        </div>
+        <div class="principal">
+            <div class="dibujo-ahorcado"><img src="photoshop_ahorcado/ahorcado_1.png" alt="" class="dibujo"></div>
+            <div class="main-ahorcado">
+                <div class="gr-letra">
+                    <label for="in_letra">Escribe una letra</label>
+                    <input type="text" name="in_letra" id="in_letra" size="3" maxlength="1">
+                    <div id="aviso3"></div>
+                </div>
+                <div id="casillero"></div>
+                <div class="gr-marcador">
+                    <p>Numero de letras totales: <span id="total"></span></p>
+                    <p>Numero de letras restantes: <span id="restantes"></span></p>
+                    <p>Letras falladas: <span id="falladas"></span></p>
+                    <p>Numero de fallos: <span id="fallos"></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="final">
+            <p id="msj_final">¡HAS GANADO!</p>
+            <div class="gr-continuar">
+                <p class="pregunta">¿Deseas jugar de nuevo?</p>
+                <div class="botonera">
+                    <button id="btn_nuevo">Juega de nuevo</button>
+                    <button id="btn_clasif">Leaderboard</button>
+                </div>
+            </div>
+        </div>
+        <div class="leaderboard">
+            <h2>LEADERBOARD</h2>
+            <table class="tabla_clasif">
+                <thead>
+                    <tr>
+                        <th>POSICIÓN</th>
+                        <th>USER</th>
+                        <th>LETRAS</th>
+                        <th>FALLOS</th>
+                        <th>PUNTUACIÓN</th>
+                    </tr>
+                </thead>
+                <tbody id="lista_tabla">
+                </tbody>
+            </table>
+            <button id="btn_nuevo2">Juega de nuevo</button>
+        </div>
+    </div>
+
+    <script>
+        //// VARIABLES GLOBALES ////
+
+        let NOMBRE = '';
+        let txt_oculto = '';
+        let txt_limpio;
+        let letra = '';
+        let letras_falladas = '';
+        let letras_usadas = '';
+        let total = 0;
+        let restantes = 0;
+        let errores = 0;
+        let ganado = false;
+        let verificado = '';
+        let colec_casillas;
+        let letras_unicas = 0;
+        let puntuacion = 0;
+
+        let clasificacion = [];
+
+        const prohibidos = '@#$%&';
+        const especiales = '¿?¡!.,:'
+
+        const INICIO = document.querySelector('.inicio');
+        const IN_USER = document.getElementById('in_user');
+        const BTN_INICIO = document.getElementById('btn_inicio');
+        const AVISO_NOMBRE = document.getElementById('aviso');
+
+        const INICIO_FRASE = document.querySelector('.inicio-frase');
+        const IN_FRASE = document.getElementById('in_frase');
+        const BTN_OCULTAR = document.getElementById('btn_ocultar');
+        const AVISO_FRASE = document.getElementById('aviso2');
+
+        const PRINCIPAL = document.querySelector('.principal');
+        const IMAGEN = document.querySelector('.dibujo');
+
+        const CASILLERO = document.getElementById('casillero');
+
+        const IN_LETRA = document.getElementById('in_letra');
+        const AVISO_LETRA = document.getElementById('aviso3');
+
+        const OUT_TOTAL = document.getElementById('total');
+        const OUT_RESTANTES = document.getElementById('restantes');
+        const OUT_FALLADAS = document.getElementById('falladas');
+        const OUT_FALLOS = document.getElementById('fallos');
+
+        const FINAL = document.querySelector('.final');
+        const MSJ_FINAL = document.getElementById('msj_final');
+        const BTN_NUEVO = document.getElementById('btn_nuevo');
+        const BTN_CLASIF = document.getElementById('btn_clasif');
+
+        const LEADERBOARD = document.querySelector('.leaderboard');
+        const TABLA = document.getElementById('lista_tabla');
+        const BTN_NUEVO2 = document.getElementById('btn_nuevo2');
+
+        //// RESET on RELOAD
+
+        IN_LETRA.value = '';
+        IN_USER.value = '';
+        IN_FRASE.value = '';
+
+
+        ///////////// FUNCIONES ////////////
+
+        //// FUNCION UNIVERSAL PARA RECOGER TEXTO
+        function recogeTexto(input) {
+            let TEXTO = input.value;
+
+            return TEXTO;
+        }
+
+        //// FUNCIONES UNIVERSALES PARA VALIDAR TEXTO Y CARACTERES
+
+        function verificaTexto(texto, longitud, output) {
+            if (texto.length < longitud) {
+                output.textContent = `El texto tiene que tener ${longitud} caracteres como mínimo`;
+            } else {
+                if (!verificaCadena(texto)) {
+                    output.textContent = `El texto contiene alguno de los siguientes caracteres prohibidos: ${prohibidos}`;
+                } else if (!isNaN(texto[0])) {
+                    output.textContent = 'El primer caracter no puede ser un número'
+                } else {
+                    output.textContent = '';
+                    verificado = true;
+                }
+            }
+            return verificado;
+        }
+
+        /// esta función analiza los caracteres uno a uno, y los compara con los prohibidos
+
+        function verificaLetras(char) {
+            let valido = false;
+            if (prohibidos.indexOf(char) == -1) {
+                valido = true;
+            }
+            return valido;
+        }
+
+        /// esta funcion busca en el texto que recibe por "cadena" y manda cada uno de los caracteres a la funcion verifica letras
+
+        function verificaCadena(cadena) {
+            let isValid = true;
+            for (let i = 0; i < cadena.length; i++) {
+                const isCharOK = verificaLetras(cadena[i]);
+                if (!isCharOK) {
+                    isValid = false;
+                }
+            }
+            return isValid;
+        }
+
+
+        //// FUNCION DE INICIO DE PARTIDA ///////
+
+        function juegoInicio() {
+            verificado = false;
+
+            NOMBRE = recogeTexto(IN_USER);
+
+            verificaTexto(NOMBRE, 3, AVISO_NOMBRE)
+
+            if (!verificado) {
+                return;
+            } else {
+                INICIO.style.display = 'none';
+                INICIO_FRASE.style.display = 'flex'
+            }
+        }
+
+        /////// FUNCION PARA MOSTRAR FRASE CODIFICADA
+
+        function ocultaTexto() {
+            let txt_salida = '';
+            verificado = false;
+            txt_oculto = recogeTexto(IN_FRASE);
+            total = txt_oculto.length;
+            verificaTexto(txt_oculto, 10, AVISO_FRASE);
+
+            if (!verificado) {
+                CASILLERO.innerHTML = '';
+                return
+            } else {
+                for (let i = 0; i < txt_oculto.length; i++) {
+                    const caracteres = txt_oculto[i];
+                    if (caracteres == ' ') {
+                        total--;
+                        txt_salida += `<span class="espacio"> </span>`;
+                    } else if (especiales.indexOf(caracteres) != -1 || !isNaN(caracteres)) {
+                        total--;
+                        txt_salida += `<span class="caracter">${caracteres}</span>`;
+                    } else {
+                        txt_salida += `<span class="caracter">_</span>`;
+                    }
+                }
+                CASILLERO.innerHTML = txt_salida;
+                colec_casillas = document.querySelectorAll('#casillero span');
+                restantes = total;
+            }
+            actualizaMarcador();
+
+            INICIO_FRASE.style.display = 'none';
+            PRINCIPAL.style.display = 'flex';
+        }
+
+        ///// FUNCIONES PARA RECOGER UNA LETRA Y COMPARARLA CON EL TEXTO
+
+        function limpiaVocal(char) {
+            //pasarla a minusculas
+            char = char.toLowerCase();
+            //defino una variable de salida
+            let sanitizada = '';
+            //buscamos las posibles tildes
+            switch (char) {
+                case 'á':
+                case 'à':
+                case 'â':
+                case 'ä':
+                    sanitizada = 'a';
+                    break;
+                case 'é':
+                case 'è':
+                case 'ê':
+                case 'ë':
+                    sanitizada = 'e';
+                    break;
+                case 'í':
+                case 'ì':
+                case 'î':
+                case 'ï':
+                    sanitizada = 'i';
+                    break;
+                case 'ó':
+                case 'ò':
+                case 'ô':
+                case 'ö':
+                    sanitizada = 'o';
+                    break;
+                case 'ú':
+                case 'ù':
+                case 'û':
+                case 'ü':
+                    sanitizada = 'u';
+                    break;
+                default:
+                    sanitizada = char;
+                    break;
+            }
+            return sanitizada
+        }
+
+        function limpiaTexto() {
+            txt_limpio = '';
+            for (let i = 0; i < txt_oculto.length; i++) {
+                const letra_sucia = txt_oculto[i];
+                txt_limpio += limpiaVocal(letra_sucia);
+            }
+            return txt_limpio;
+        }
+
+        // funcion para VALIDAR LETRA
+
+        function validaLetra(char) {
+            let letra_isValid = true;
+            if (prohibidos.indexOf(char) != -1 || !isNaN(char) || especiales.indexOf(char) != -1) {
+                AVISO_LETRA.textContent = 'Estás introduciendo un caracter no permitido'
+                AVISO_LETRA.style.color = 'crimson';
+                letra_isValid = false;
+            } else if (letras_usadas.indexOf(char) != -1) {
+                AVISO_LETRA.textContent = 'No puedes repetir letras que ya has usado';
+                AVISO_LETRA.style.color = 'crimson';
+                letra_isValid = false;
+            }
+
+            return letra_isValid;
+        }
+
+
+        function compruebaLetra() {
+            letra = recogeTexto(IN_LETRA);
+            letra = limpiaVocal(letra);
+
+            if (!validaLetra(letra)) {
+                return;
+            } else {
+                AVISO_LETRA.textContent = '';
+
+                letras_usadas += letra;
+
+                limpiaTexto();
+
+                if (txt_limpio.indexOf(letra) != -1) {
+                    for (let i = 0; i < txt_limpio.length; i++) {
+                        const letra_oculta = txt_limpio.charAt(i);
+                        if (letra_oculta == letra) {
+                            colec_casillas[i].textContent = txt_oculto.charAt(i);
+                            restantes--;
+
+                            AVISO_LETRA.textContent = '¡Genial! La letra se encuentra en la frase oculta';
+                            AVISO_LETRA.style.color = 'green';
+
+                            if (restantes == 0) {
+                                ganado = true;
+                                finalJuego();
+                            }
+                        }
+                    }
+                } else {
+                    letras_falladas += letra + ' - ';
+                    errores++;
+
+                    AVISO_LETRA.textContent = `¡Oh no, has fallado! Te quedan ${6 - errores} intentos.`;
+                    AVISO_LETRA.style.color = 'crimson';
+
+                    IMAGEN.src = `photoshop_ahorcado/ahorcado_${errores + 1}.png`;
+
+                    if (errores == 6) {
+                        IN_LETRA.disabled = true
+                        ganado = false;
+                        setTimeout(finalJuego, 1000);
+                    }
+                }
+
+                actualizaMarcador();
+
+                IN_LETRA.value = '';
+            }
+        }
+
+        function actualizaMarcador() {
+            OUT_TOTAL.textContent = total;
+            OUT_RESTANTES.textContent = restantes;
+            OUT_FALLOS.textContent = errores;
+            OUT_FALLADAS.textContent = letras_falladas;
+        }
+
+        function finalJuego() {
+            PRINCIPAL.style.display = 'none';
+            FINAL.style.display = 'flex';
+
+            if (ganado == true) {
+                MSJ_FINAL.textContent = '¡HAS GANADO!';
+            } else {
+                MSJ_FINAL.textContent = 'GAME OVER';
+            }
+
+            addClasificacion();
+        }
+
+        function reiniciaJuego() {
+            txt_limpio;
+            letra = '';
+            letras_falladas = '';
+            letras_usadas = '';
+            total = 0;
+            restantes = 0;
+            errores = 0;
+            ganado = false;
+            verificado = '';
+            colec_casillas;
+            letras_unicas = 0;
+
+            IN_USER.value = '';
+            IN_FRASE.value = '';
+            AVISO_NOMBRE.textContent = '';
+            AVISO_FRASE.textContent = '';
+            AVISO_LETRA.textContent = '';
+
+            INICIO.style.display = 'flex';
+            FINAL.style.display = 'none';
+            LEADERBOARD.style.display = 'none';
+        }
+
+        function muestraLeaderboard() {
+            FINAL.style.display = 'none';
+            LEADERBOARD.style.display = 'flex';
+        }
+
+        function cuentaLetras() {
+            let letras_en_frase = '';
+            for (let i = 0; i < txt_limpio.length; i++) {
+                const letra = txt_limpio[i];
+                if (prohibidos.indexOf(letra) == -1 && especiales.indexOf(letra) == -1 && isNaN(letra) && letras_en_frase.indexOf(letra) == -1 && letra != ' ') {
+                    letras_en_frase += letra;
+                }
+            }
+
+            letras_unicas = letras_en_frase.length;
+        }
+
+        function addClasificacion() {
+            TABLA.innerHTML = '';
+            cuentaLetras();
+
+            if (ganado == true) {
+                puntuacion = parseInt(((letras_unicas ** 2) / (letras_unicas + errores)) * 100);
+            } else {
+                puntuacion = 0;
+            }
+
+            let pos_leaderboard = 0;
+
+            let clasif_nueva = [pos_leaderboard, NOMBRE, letras_unicas, errores, puntuacion];
+
+            clasificacion.push(clasif_nueva);
+
+            ordenarClasif();
+
+            let row_count = 0;
+
+            for (const jugada of clasificacion) {
+                let row = document.createElement('tr');
+                pos_leaderboard++;
+                jugada[0] = pos_leaderboard;
+                for (const data of jugada) {
+                    let cell = document.createElement('td');
+                    cell.textContent = data;
+                    row.append(cell);
+                }
+                TABLA.append(row);
+            }
+        }
+
+
+        function ordenarClasif() {
+            clasificacion.sort(function (a, b) { return b[4] - a[4] });
+            console.log(clasificacion)
+        }
+
+
+
+
+
+
+
+
+
+
+        ////// ASIGNAMOS FUNCIONES A EVENTOS //////
+
+        BTN_INICIO.onclick = juegoInicio;
+        BTN_OCULTAR.onclick = ocultaTexto;
+        IN_LETRA.onchange = compruebaLetra;
+        BTN_NUEVO.onclick = reiniciaJuego;
+        BTN_NUEVO2.onclick = reiniciaJuego;
+        BTN_CLASIF.onclick = muestraLeaderboard;
+
+
+
+
+
+    </script>
+
+
+
+
+</body>
+
+</html>
