@@ -530,6 +530,13 @@
                 INICIO.style.display = 'none';
                 INICIO_FRASE.style.display = 'flex'
             }
+
+            let clasif_guardada = JSON.parse(localStorage.getItem('clasif'))
+
+            if (clasif_guardada !== null){
+                clasificacion = [...clasif_guardada];
+            }
+            console.log(clasificacion);
         }
 
         /////// FUNCION PARA MOSTRAR FRASE CODIFICADA
@@ -773,6 +780,8 @@
             clasificacion.push(clasif_nueva);
 
             ordenarClasif();
+
+            localStorage.setItem('clasif', JSON.stringify(clasificacion));
 
             let row_count = 0;
 
